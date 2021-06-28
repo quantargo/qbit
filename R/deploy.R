@@ -56,7 +56,7 @@ deploy <- function(name,
 
   stopifnot(!is.null(apikey))
   stopifnot(file.exists(main_file))
-  stopifnot(main_file %in% c("main.R", "main.Rmd"))
+  stopifnot(main_file %in% c("main.R", "main.Rmd", "main.py"))
   files <- unique(c(files, main_file))
   stopifnot(usagePlan %in% c("public", "private"))
   packagesLoaded <- unique(packagesLoaded[!packagesLoaded %in% "renv"])
