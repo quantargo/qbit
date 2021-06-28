@@ -1,12 +1,12 @@
 Package: qbit
 Title: A new way to build and share your data science projects
-Version: 0.0.0.9000
+Version: 0.1
 Authors@R: 
     person(given = "Mario",
            family = "Annau",
            role = c("aut", "cre"),
            email = "mario.annau@quantargo.com")
-Description: Access to the Quantargo qbit API to deploy and run functions.
+Description: Access to the Quantargo qbit API to deploy, run and automate QBit Workspaces.
 License: file LICENSE
 Imports:
     httr,

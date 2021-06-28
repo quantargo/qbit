@@ -34,6 +34,8 @@
 #' @importFrom httr POST PUT add_headers content
 #' @importFrom rmarkdown render
 #' @importFrom renv dependencies
+#' @importFrom utils capture.output str
+#' @importFrom jsonlite unbox
 #' @export
 deploy <- function(name,
                    main_file,
