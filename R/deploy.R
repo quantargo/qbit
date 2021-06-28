@@ -67,6 +67,8 @@ deploy <- function(name,
       source(main_file)
     } else if (fext == "rmd") {
       rmarkdown::render(main_file)
+    } else if (fext == "py") {
+      # Do nothing
     } else {
       stop(sprintf("File extension '%s' not supported.", fext))
     }
