@@ -1,0 +1,24 @@
+Package: qbit
+Title: A new way to build and share your data science projects
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Mario",
+           family = "Annau",
+           role = c("aut", "cre"),
+           email = "mario.annau@quantargo.com")
+Description: Access to the Quantargo qbit API to deploy and run functions.
+License: file LICENSE
+Imports:
+    httr,
+    renv,
+    jsonlite,
+    webshot,
+    highr,
+    yaml,
+    rmarkdown
+Suggests: 
+    testthat
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
