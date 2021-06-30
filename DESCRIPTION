@@ -14,7 +14,6 @@ Imports:
     jsonlite,
     webshot,
     highr,
-    yaml,
     rmarkdown
 Suggests: 
     testthat
