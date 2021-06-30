@@ -7,6 +7,6 @@
 empty_main_file <- function(extension = "R") {
   fname <- sprintf("main.%s", extension)
   create_out <- file.create(fname)
-  stopifnot(!create_out)
+  stopifnot(create_out)
   fname
 }
