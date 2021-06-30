@@ -165,6 +165,7 @@ deploy <- function(qbit_id,
     invisible(TRUE)
     #return(resp_upload_content$id)
   } else {
+    message(resp_deploy)
     stop("An error occured uploading the function.")
   }
 }
