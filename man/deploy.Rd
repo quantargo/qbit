@@ -2,11 +2,11 @@
 % Please edit documentation in R/deploy.R
 \name{deploy}
 \alias{deploy}
-\title{Deploy qbit}
+\title{Deploy QBit Workspace}
 \usage{
 deploy(
-  name,
-  main_file,
+  qbit_id,
+  main_file = empty_main_file(extension = "R"),
   files = NULL,
   index = NULL,
   meta = NULL,
@@ -24,7 +24,7 @@ deploy(
 )
 }
 \arguments{
-\item{name}{character; Name of the QBit function.}
+\item{qbit_id}{character; Name of the QBit function.}
 
 \item{main_file}{character; Main file (either main.R or main.Rmd) to be used
 for QBit.}
@@ -48,7 +48,9 @@ This setting can be helpful to create the required environment.}
 
 \item{packagesLoaded}{character; Packages namespaces to be loaded (through library)}
 
-\item{apikey}{character; API Key to be used for QBit deployment endpoint.}
+\item{apikey}{character; API Key used to invoke QBit API endpoint.
+After creating an account at \url{https://www.quantargo.com} the API key is available
+in the user settings \url{https://www.quantargo.com/dashboard}.}
 
 \item{usagePlan}{character; Usage plan of Qbit, can be either either public or private}
 
@@ -59,7 +61,9 @@ This setting can be helpful to create the required environment.}
 \item{tmpdir}{character; Temporary directory to be used for qbit/zip creation.}
 }
 \description{
-Deploy qbit
+QBit workspaces can be deployed with a (pre-existing) \code{qbit_id} and a
+specified \code{main_file} containing the source code of a qbit. Additional files
+containing, e.g. data are included through the \code{files} parameter.
 }
 \examples{
 \dontrun{

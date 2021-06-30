@@ -1,6 +1,10 @@
-#' Deploy qbit
+#' Deploy QBit Workspace
 #'
-#' @param name character; Name of the QBit function.
+#' QBit workspaces can be deployed with a (pre-existing) \code{qbit_id} and a
+#' specified \code{main_file} containing the source code of a qbit. Additional files
+#' containing, e.g. data are included through the \code{files} parameter.
+#'
+#' @param qbit_id character; Name of the QBit function.
 #' @param main_file character; Main file (either main.R or main.Rmd) to be used
 #' for QBit.
 #' @param index list; Index meta data for qbit
@@ -9,7 +13,9 @@
 #' @param source_main_file character; Specify if file shall be sourced before uploading.
 #' This setting can be helpful to create the required environment.
 #' @param packagesLoaded character; Packages namespaces to be loaded (through library)
-#' @param apikey character; API Key to be used for QBit deployment endpoint.
+#' @param apikey character; API Key used to invoke QBit API endpoint.
+#' After creating an account at \url{https://www.quantargo.com} the API key is available
+#' in the user settings \url{https://www.quantargo.com/dashboard}.
 #' @param url character; Upload url to be used
 #' @param obj character; Names of objects to be included into qbit environment
 #' @param eval_env environment; Environment from which objects shall be taken
@@ -37,7 +43,7 @@
 #' @importFrom utils capture.output str
 #' @importFrom jsonlite unbox
 #' @export
-deploy <- function(name,
+deploy <- function(qbit_id,
                    main_file = empty_main_file(extension = "R"),
                    files = NULL,
                    index = NULL,
@@ -94,7 +100,7 @@ deploy <- function(name,
 
   zip_file <- NULL
   if (length(files_to_zip) > 0) {
-    zip_file <- file.path(tmpdir, sprintf("%s.zip", name))
+    zip_file <- file.path(tmpdir, sprintf("%s.zip", qbit_id))
     sapply(files_to_zip, function(f) file.copy(f, tmpdir, recursive = TRUE))
     zip_dir(zip_file, basename(files_to_zip), within_dir=tmpdir)
   }
@@ -111,8 +117,8 @@ deploy <- function(name,
     qbitFiles <- lapply(files, function(x) {
       ### Generate QBit Main file
       out <- list(
-        contentId = unbox(paste0(name, sprintf("#files#%s", x))),
-        moduleId = unbox(name),
+        contentId = unbox(paste0(qbit_id, sprintf("#files#%s", x))),
+        moduleId = unbox(qbit_id),
         contentType = unbox("file"),
         name = unbox(x)
       )
@@ -123,7 +129,7 @@ deploy <- function(name,
     })
   }
 
-  body_upload <- list(name = name,
+  body_upload <- list(name = qbit_id,
                       meta = meta,
                       packages = pkg,
                       timeout = timeout)
@@ -148,17 +154,18 @@ deploy <- function(name,
 
   message("*** Start Deploy")
   url_deploy <- paste0(url, "/deploy")
-  body_deploy <- list(qbitId = name)
+  body_deploy <- list(qbitId = qbit_id)
   resp_deploy <- POST(url_deploy, do.call(add_headers, h),
                       body = body_deploy,
                       encode = "json")
 
 
   if (resp_deploy$status_code == 200) {
-    message(sprintf("QBit '%s' successfully deployed!", name))
+    message(sprintf("QBit '%s' successfully deployed!", qbit_id))
     invisible(TRUE)
     #return(resp_upload_content$id)
   } else {
     stop("An error occured uploading the function.")
   }
 }
+
