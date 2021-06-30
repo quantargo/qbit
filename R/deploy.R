@@ -38,7 +38,7 @@
 #' @importFrom jsonlite unbox
 #' @export
 deploy <- function(name,
-                   main_file,
+                   main_file = empty_main_file(extension = "R"),
                    files = NULL,
                    index = NULL,
                    meta = NULL,
