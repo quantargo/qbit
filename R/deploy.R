@@ -18,7 +18,7 @@
 #' in the user settings \url{https://www.quantargo.com/dashboard}.
 #' @param url character; Upload url to be used
 #' @param obj character; Names of objects to be included into qbit environment
-#' @param eval_env environment; Environment from which objects shall be taken
+#' @param eval_env environment; Environment from which R objects shall be taken
 #' @param package_lock character; Package lock file
 #' @param verbose logical; Specify if output shall be shown
 #' @param tmpdir character; Temporary directory to be used for qbit/zip creation.
