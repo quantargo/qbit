@@ -38,7 +38,7 @@ for QBit.}
 \item{source_main_file}{character; Specify if file shall be sourced before uploading.
 This setting can be helpful to create the required environment.}
 
-\item{eval_env}{environment; Environment from which objects shall be taken}
+\item{eval_env}{environment; Environment from which R objects shall be taken}
 
 \item{obj}{character; Names of objects to be included into qbit environment}
 
