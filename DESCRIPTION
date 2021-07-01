@@ -12,8 +12,6 @@ Imports:
     httr,
     renv,
     jsonlite,
-    webshot,
-    highr,
     rmarkdown
 Suggests: 
     testthat
