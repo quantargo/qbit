@@ -7,7 +7,8 @@
 create(
   qbit_name,
   template = get_qbit_template("r"),
-  verbose = getOption("verbose")
+  verbose = getOption("verbose"),
+  ...
 )
 }
 \arguments{
@@ -17,6 +18,8 @@ create(
 at quantargo, see also \url{https://www.quantargo.com/qbits/explore}}
 
 \item{verbose}{logical; Show intermediary console outputs.}
+
+\item{...}{Additional parameters passed to \link{invoke}}
 }
 \value{
 Id of created workspace
