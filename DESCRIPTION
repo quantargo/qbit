@@ -12,7 +12,8 @@ Imports:
     httr,
     renv,
     jsonlite,
-    rmarkdown
+    rmarkdown,
+    tibble
 Suggests: 
     testthat
 Encoding: UTF-8

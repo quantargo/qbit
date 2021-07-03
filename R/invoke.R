@@ -39,6 +39,7 @@
 #' }
 #' @importFrom httr POST PUT add_headers content
 #' @importFrom jsonlite unbox
+#' @importFrom tibble as_tibble
 #' @export
 invoke <- function(qbit_id,
                    event_type,
@@ -88,6 +89,11 @@ invoke <- function(qbit_id,
     resp_invoke_content <- jsonlite::fromJSON(resp_invoke_content$body)
   } else {
     stop(sprintf("ERROR: %s", resp_invoke_content$message))
+  }
+
+  if (!is.null(resp_invoke_content$console_output)) {
+    resp_invoke_content$console_output <-
+      as_tibble(resp_invoke_content$console_output)
   }
   resp_invoke_content
 }
