@@ -151,13 +151,24 @@ get_qbit_template <- function(short_name) {
 
 #' Render RMarkdown Document
 #'
-#' @param qbit_id character; Workspace Id to be removed.
+#' @param qbit_id character; Workspace Id to be rendered.
 #' @param verbose logical; Show intermediary console outputs.
 #' @param ... Additional parameters passed to \link{invoke}
 #' @return list including response object
 #' @export
 render <- function(qbit_id, verbose = getOption("verbose"), ...) {
-  out <- invoke(qbit_id, "qbit-render", verbose = verbose, ...)
-  if(verbose) message(sprintf("QBit '%s' successfully removed.", qbit_id))
-  out
+  invoke(qbit_id, "qbit-render", verbose = verbose, ...)
+}
+
+#' Render RMarkdown Document
+#'
+#' @param qbit_id character; Workspace Id to be used for code execution.
+#' @param code character; Code to be executed.
+#' @param async logical; Execute code async.
+#' @param verbose logical; Show intermediary console outputs.
+#' @param ... Additional parameters passed to \link{invoke}
+#' @return list including response object
+#' @export
+run <- function(qbit_id, code, async = FALSE, verbose = getOption("verbose"), ...) {
+  invoke(qbit_id, "qbit-run", verbose = verbose, event_input = list(code = code, async = async), ...)
 }
