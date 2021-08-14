@@ -35,7 +35,7 @@ invoke(
 
 \item{event_input}{list;}
 
-\item{stateful}{logical;}
+\item{stateful}{logical; Specify if changes to the environment (and console output) shall be saved.}
 
 \item{apikey}{character; API Key used to invoke QBit API endpoint.
 After creating an account at \url{https://www.quantargo.com} the API key

@@ -4,10 +4,12 @@
 \alias{render}
 \title{Render RMarkdown Document}
 \usage{
-render(qbit_id, verbose = getOption("verbose"), ...)
+render(qbit_id, async = FALSE, verbose = getOption("verbose"), ...)
 }
 \arguments{
 \item{qbit_id}{character; Workspace Id to be rendered.}
+
+\item{async}{logical; Execute code async.}
 
 \item{verbose}{logical; Show intermediary console outputs.}
 

@@ -20,7 +20,7 @@
 #' - upload-finished
 #' - file-delete
 #' @param event_input list;
-#' @param stateful logical;
+#' @param stateful logical; Specify if changes to the environment (and console output) shall be saved.
 #' @param apikey character; API Key used to invoke QBit API endpoint.
 #' After creating an account at \url{https://www.quantargo.com} the API key
 #' is available
@@ -153,11 +153,12 @@ get_qbit_template <- function(short_name) {
 #'
 #' @param qbit_id character; Workspace Id to be rendered.
 #' @param verbose logical; Show intermediary console outputs.
+#' @param async logical; Execute code async.
 #' @param ... Additional parameters passed to \link{invoke}
 #' @return list including response object
 #' @export
-render <- function(qbit_id, verbose = getOption("verbose"), ...) {
-  invoke(qbit_id, "qbit-render", verbose = verbose, ...)
+render <- function(qbit_id, async = FALSE, verbose = getOption("verbose"), ...) {
+  invoke(qbit_id, "qbit-render", verbose = verbose, event_input = list(async = async), ...)
 }
 
 #' Render RMarkdown Document
