@@ -169,6 +169,6 @@ render <- function(qbit_id, verbose = getOption("verbose"), ...) {
 #' @param ... Additional parameters passed to \link{invoke}
 #' @return list including response object
 #' @export
-run <- function(qbit_id, code, async = FALSE, verbose = getOption("verbose"), ...) {
-  invoke(qbit_id, "qbit-run", verbose = verbose, event_input = list(code = code, async = async), ...)
+run <- function(qbit_id, code, async = FALSE, convertTablesJSON = TRUE, verbose = getOption("verbose"), ...) {
+  invoke(qbit_id, "qbit-run", verbose = verbose, event_input = list(code = code, async = async, convertTablesJSON = convertTablesJSON), ...)
 }
