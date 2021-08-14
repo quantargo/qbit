@@ -4,7 +4,14 @@
 \alias{run}
 \title{Render RMarkdown Document}
 \usage{
-run(qbit_id, code, async = FALSE, verbose = getOption("verbose"), ...)
+run(
+  qbit_id,
+  code,
+  async = FALSE,
+  convertTablesJSON = TRUE,
+  verbose = getOption("verbose"),
+  ...
+)
 }
 \arguments{
 \item{qbit_id}{character; Workspace Id to be used for code execution.}
@@ -12,6 +19,8 @@ run(qbit_id, code, async = FALSE, verbose = getOption("verbose"), ...)
 \item{code}{character; Code to be executed.}
 
 \item{async}{logical; Execute code async.}
+
+\item{convertTablesJSON}{logical; Specify if objects inherited from data.frame shall be converted to JSON tables.}
 
 \item{verbose}{logical; Show intermediary console outputs.}
 

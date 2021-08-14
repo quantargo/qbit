@@ -165,6 +165,7 @@ render <- function(qbit_id, verbose = getOption("verbose"), ...) {
 #' @param qbit_id character; Workspace Id to be used for code execution.
 #' @param code character; Code to be executed.
 #' @param async logical; Execute code async.
+#' @param convertTablesJSON logical; Specify if objects inherited from data.frame shall be converted to JSON tables.
 #' @param verbose logical; Show intermediary console outputs.
 #' @param ... Additional parameters passed to \link{invoke}
 #' @return list including response object
