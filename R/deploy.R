@@ -122,7 +122,7 @@ deploy <- function(qbit_id,
         contentType = unbox("file"),
         name = unbox(x)
       )
-      if (tools::file_ext(x) %in% c("R", "Rmd", "md")) {
+      if (tools::file_ext(x) %in% c("R", "Rmd", "md", "py")) {
         out$content <- paste(readLines(x), collapse = "\n")
       }
       out
