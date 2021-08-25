@@ -18,7 +18,7 @@ deploy(
   packagesLoaded = dependencies()$Package,
   apikey = getOption("QKEY"),
   usagePlan = "public",
-  url = getOption("QBITURL", "https://api.quantargo.com/lambda"),
+  url = getOption("QBITURL", "https://api.quantargo.com/v2"),
   verbose = getOption("verbose"),
   tmpdir = tempdir()
 )
