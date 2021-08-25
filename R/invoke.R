@@ -68,14 +68,11 @@ invoke <- function(qbit_id,
   stopifnot(!is.null(apikey))
 
   qbit_url <- getOption("QBITURL", "https://api.quantargo.com/v2")
-  url_invoke <- sprintf("%s/invoke", qbit_url)
+  url_invoke <- sprintf("%s/qbits/%s/invoke/%s", qbit_url, qbit_id, event_type)
   h <- list(`x-api-key` = apikey)
 
-  body_invoke <- list(eventType = event_type,
-                      stateful = stateful)
-
-  body_invoke$qbitId <- qbit_id
-  body_invoke$eventInput <- event_input
+  body_invoke <- event_input
+  body_invoke$stateful <- stateful
 
   body_invoke_json <- jsonlite::toJSON(body_invoke, auto_unbox = TRUE)
 

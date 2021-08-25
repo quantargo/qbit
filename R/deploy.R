@@ -108,7 +108,7 @@ deploy <- function(qbit_id,
   # Upload zip file to landing zone
   message("*** Starting Upload")
   h <- list(`x-api-key` = apikey)
-  url_upload <- paste0(url, "/upload")
+  url_upload <- paste0(url, "/qbits/", qbit_id, "/upload")
 
   pkg <- jsonlite::read_json(package_lock)
 
@@ -129,8 +129,7 @@ deploy <- function(qbit_id,
     })
   }
 
-  body_upload <- list(name = qbit_id,
-                      meta = meta,
+  body_upload <- list(meta = meta,
                       packages = pkg,
                       timeout = timeout)
 
@@ -153,7 +152,7 @@ deploy <- function(qbit_id,
   }
 
   message("*** Start Deploy")
-  url_deploy <- paste0(url, "/deploy")
+  url_deploy <- paste0(url, "/qbits/", qbit_id, "/deploy")
   body_deploy <- list(qbitId = qbit_id)
   resp_deploy <- POST(url_deploy, do.call(add_headers, h),
                       body = body_deploy,
