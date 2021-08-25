@@ -56,7 +56,7 @@ deploy <- function(qbit_id,
                    packagesLoaded = dependencies()$Package,
                    apikey = getOption("QKEY"),
                    usagePlan = "public",
-                   url = getOption("QBITURL", "https://api.quantargo.com/lambda"),
+                   url = getOption("QBITURL", "https://api.quantargo.com/v2"),
                    verbose = getOption("verbose"),
                    tmpdir = tempdir()) {
 
@@ -145,7 +145,7 @@ deploy <- function(qbit_id,
   resp_upload <- POST(url_upload, do.call(add_headers, h), body = body_upload_json, encode = "raw")
 
   resp_upload_content <- content(resp_upload, "parsed")
-  upload_url <- resp_upload_content$url
+  upload_url <- resp_upload_content$uploadUrl
   if (!is.null(upload_url) && !is.null(zip_file)) {
       resp_upload_file <- PUT(upload_url,
                               body = httr::upload_file(zip_file))

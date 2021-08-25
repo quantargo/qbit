@@ -67,7 +67,7 @@ invoke <- function(qbit_id,
   stopifnot(event_type %in% events_available)
   stopifnot(!is.null(apikey))
 
-  qbit_url <- getOption("QBITURL", "https://api.quantargo.com/lambda")
+  qbit_url <- getOption("QBITURL", "https://api.quantargo.com/v2")
   url_invoke <- sprintf("%s/invoke", qbit_url)
   h <- list(`x-api-key` = apikey)
 
