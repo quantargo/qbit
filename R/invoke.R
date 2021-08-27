@@ -82,9 +82,7 @@ invoke <- function(qbit_id,
     stop(sprintf("ERROR: %s", resp_invoke_content$error))
   }
 
-  if (!is.null(resp_invoke_content$body)) {
-    resp_invoke_content <- jsonlite::fromJSON(resp_invoke_content$body)
-  } else {
+  if (is.null(resp_invoke_content)) {
     stop(sprintf("ERROR: %s", resp_invoke_content$message))
   }
 
