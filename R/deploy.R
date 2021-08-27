@@ -67,6 +67,10 @@ deploy <- function(qbit_id,
   stopifnot(usagePlan %in% c("public", "private"))
   packagesLoaded <- unique(packagesLoaded[!packagesLoaded %in% "renv"])
 
+  if (!is.null(index$timeout)) {
+    timeout = index$timeout
+  }
+
   if(source_main_file) {
     fext <- tolower(tools::file_ext(main_file))
     if(fext == "r") {
