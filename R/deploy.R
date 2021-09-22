@@ -23,7 +23,8 @@
 #' @param verbose logical; Specify if output shall be shown
 #' @param tmpdir character; Temporary directory to be used for qbit/zip creation.
 #' @param timeout numeric; QBit timeout in seconds.
-#' @param usagePlan character; Usage plan of Qbit, can be either either public or private
+#' @param usagePlan character; Usage plan of Qbit, can be either either public or private.
+#' @param secrets list; List of provided secrets to be used for workspace.
 #' @examples
 #' \dontrun{
 #'   deploy('qbit-example-landing-page', main_file = 'main.R')
@@ -58,7 +59,8 @@ deploy <- function(qbit_id,
                    usagePlan = "public",
                    url = getOption("QBITURL", "https://api.quantargo.com/v2"),
                    verbose = getOption("verbose"),
-                   tmpdir = tempdir()) {
+                   tmpdir = tempdir(),
+                   secrets = NULL) {
 
   stopifnot(!is.null(apikey))
   stopifnot(file.exists(main_file))
@@ -142,6 +144,7 @@ deploy <- function(qbit_id,
   body_upload$packagesLoaded = packagesLoaded
   index$usagePlan = usagePlan
   body_upload$index = index
+  body_upload$secrets = secrets
 
   body_upload_json <- jsonlite::toJSON(body_upload, auto_unbox = TRUE)
   message("*** Upload File")

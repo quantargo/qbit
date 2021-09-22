@@ -20,7 +20,8 @@ deploy(
   usagePlan = "public",
   url = getOption("QBITURL", "https://api.quantargo.com/v2"),
   verbose = getOption("verbose"),
-  tmpdir = tempdir()
+  tmpdir = tempdir(),
+  secrets = NULL
 )
 }
 \arguments{
@@ -52,13 +53,15 @@ This setting can be helpful to create the required environment.}
 After creating an account at \url{https://www.quantargo.com} the API key is available
 in the user settings \url{https://www.quantargo.com/dashboard}.}
 
-\item{usagePlan}{character; Usage plan of Qbit, can be either either public or private}
+\item{usagePlan}{character; Usage plan of Qbit, can be either either public or private.}
 
 \item{url}{character; Upload url to be used}
 
 \item{verbose}{logical; Specify if output shall be shown}
 
 \item{tmpdir}{character; Temporary directory to be used for qbit/zip creation.}
+
+\item{secrets}{list; List of provided secrets to be used for workspace.}
 }
 \description{
 QBit workspaces can be deployed with a (pre-existing) \code{qbit_id} and a
