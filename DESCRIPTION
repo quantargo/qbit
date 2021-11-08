@@ -13,7 +13,8 @@ Imports:
     renv,
     jsonlite,
     rmarkdown,
-    tibble
+    tibble,
+    yaml
 Suggests: 
     testthat
 Encoding: UTF-8

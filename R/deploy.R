@@ -176,3 +176,77 @@ deploy <- function(qbit_id,
   }
 }
 
+
+#' Deploy Quantargo Course
+#'
+#' After the course build process is finished the generated json files can be
+#' uploaded through this function.
+#'
+#' @param course_id character; Name of the QBit function.
+#' @param index list; Index meta data for qbit.
+#' @param json_files character; list of json files to be uploaded through endpoint
+#' @param asset_files character; files to be uploaded as course assets.
+#' @param apikey character; API key from QBit platform.
+#' @param tmpdir character; Temporary directory to be used for qbit/zip creation.
+#' @importFrom httr POST PUT add_headers content
+#' @importFrom yaml read_yaml
+#' @importFrom jsonlite read_json
+#' @export
+deploy_course <- function(
+  course_id,
+  index = read_yaml("index.yml"),
+  json_files = list.files(pattern = "*.json"),
+  asset_files = list.files(pattern = "[^(html)|(Rmd)|(json)|(.DS_Store)]$", full.names = TRUE),
+  apikey = getOption("QKEY"),
+  tmpdir = tempdir()) {
+
+  index$moduleId <- course_id
+  index$contentId <- course_id
+
+  h <- list(`x-api-key` = apikey)
+  url_upload <- paste0(url, "/courses/", course_id, "/upload")
+
+  stopifnot(length(contents) < 1)
+  contents <- lapply(contents, read_json())
+  body_upload <- list(index = index,
+                      files = contents)
+
+  body_upload_json <- jsonlite::toJSON(body_upload, auto_unbox = TRUE)
+  message("*** Upload File")
+  resp_upload <- POST(url_upload, do.call(add_headers, h), body = body_upload_json, encode = "raw")
+
+  resp_upload_content <- content(resp_upload, "parsed")
+  upload_url <- resp_upload_content$uploadUrl
+
+  zip_file <- NULL
+  files_to_zip <- asset_files
+  if (length(files_to_zip) > 0) {
+    zip_file <- file.path(tmpdir, sprintf("%s.zip", course_id))
+    sapply(files_to_zip, function(f) file.copy(f, tmpdir, recursive = TRUE))
+    zip_dir(zip_file, basename(files_to_zip), within_dir=tmpdir)
+  }
+
+
+  if (!is.null(upload_url) && !is.null(zip_file)) {
+    resp_upload_file <- PUT(upload_url,
+                            body = httr::upload_file(zip_file))
+    stopifnot(resp_upload_file$status == 200)
+  }
+
+  message("*** Start Deploy")
+  url_deploy <- paste0(url, "/courses/", course_id, "/deploy")
+  resp_deploy <- POST(url_deploy, do.call(add_headers, h),
+                      encode = "json")
+
+
+  if (resp_deploy$status_code == 200) {
+    message(sprintf("Course '%s' successfully deployed!", course_id))
+    invisible(TRUE)
+    #return(resp_upload_content$id)
+  } else {
+    message(resp_deploy)
+    stop("An error occured uploading the function.")
+  }
+
+
+}
