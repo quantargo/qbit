@@ -179,7 +179,14 @@ deploy <- function(qbit_id,
 
 get_json_files <- function(path = ".") {
   out <- list.files(path, pattern = "[^(renv)]*.json", recursive = TRUE, full.names = TRUE)
-  grep("^[^renv]", out, perl = TRUE, value = TRUE)
+  grep("./renv", out, fixed = TRUE, value = TRUE, invert = TRUE)
+}
+
+get_asset_files <- function(path = ".") {
+  out <- list.files(path, pattern = "[^(html)|(Rmd)|(json)|(.DS_Store)]$", recursive = TRUE, full.names = TRUE)
+  out <- grep("_cache", out, fixed = TRUE, value = TRUE, invert = TRUE)
+  out <- grep("./renv", out, fixed = TRUE, value = TRUE, invert = TRUE)
+  grep("\\.\\/\\d+", out, value = TRUE)
 }
 
 #' Deploy Quantargo Course
@@ -194,6 +201,7 @@ get_json_files <- function(path = ".") {
 #' @param asset_files character; files to be uploaded as course assets.
 #' @param apikey character; API key from QBit platform.
 #' @param tmpdir character; Temporary directory to be used for qbit/zip creation.
+#' @param url character; Upload url to be used
 #' @importFrom httr POST PUT add_headers content
 #' @importFrom yaml read_yaml
 #' @importFrom jsonlite read_json
@@ -203,8 +211,9 @@ deploy_course <- function(
   path = ".",
   index = read_yaml(file.path(path, "index.yml")),
   json_files = get_json_files(path),
-  asset_files = list.files(path, pattern = "[^(html)|(Rmd)|(json)|(.DS_Store)]$", full.names = TRUE),
+  asset_files = get_asset_files(path),
   apikey = getOption("QKEY"),
+  url = getOption("QBITURL", "https://api.quantargo.com/v2"),
   tmpdir = tempdir()) {
 
   index$moduleId <- course_id
@@ -213,8 +222,8 @@ deploy_course <- function(
   h <- list(`x-api-key` = apikey)
   url_upload <- paste0(url, "/courses/", course_id, "/upload")
 
-  stopifnot(length(contents) < 1)
-  contents <- lapply(contents, read_json())
+  stopifnot(length(json_files) < 1)
+  contents <- lapply(json_files, read_json)
   body_upload <- list(index = index,
                       files = contents)
 
