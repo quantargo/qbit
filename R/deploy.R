@@ -177,12 +177,18 @@ deploy <- function(qbit_id,
 }
 
 
+get_json_files <- function(path = ".") {
+  out <- list.files(path, pattern = "[^(renv)]*.json", recursive = TRUE, full.names = TRUE)
+  grep("^[^renv]", out, perl = TRUE, value = TRUE)
+}
+
 #' Deploy Quantargo Course
 #'
 #' After the course build process is finished the generated json files can be
 #' uploaded through this function.
 #'
 #' @param course_id character; Name of the QBit function.
+#' @param path character; Root path of course.
 #' @param index list; Index meta data for qbit.
 #' @param json_files character; list of json files to be uploaded through endpoint
 #' @param asset_files character; files to be uploaded as course assets.
@@ -194,9 +200,10 @@ deploy <- function(qbit_id,
 #' @export
 deploy_course <- function(
   course_id,
-  index = read_yaml("index.yml"),
-  json_files = list.files(pattern = "*.json"),
-  asset_files = list.files(pattern = "[^(html)|(Rmd)|(json)|(.DS_Store)]$", full.names = TRUE),
+  path = ".",
+  index = read_yaml(file.path(path, "index.yml")),
+  json_files = get_json_files(path),
+  asset_files = list.files(path, pattern = "[^(html)|(Rmd)|(json)|(.DS_Store)]$", full.names = TRUE),
   apikey = getOption("QKEY"),
   tmpdir = tempdir()) {
 

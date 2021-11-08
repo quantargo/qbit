@@ -6,16 +6,19 @@
 \usage{
 deploy_course(
   course_id,
-  index = read_yaml("index.yml"),
-  json_files = list.files(pattern = "*.json"),
-  asset_files = list.files(pattern = "[^(html)|(Rmd)|(json)|(.DS_Store)]$", full.names
-    = TRUE),
+  path = ".",
+  index = read_yaml(file.path(path, "index.yml")),
+  json_files = get_json_files(path),
+  asset_files = list.files(path, pattern = "[^(html)|(Rmd)|(json)|(.DS_Store)]$",
+    full.names = TRUE),
   apikey = getOption("QKEY"),
   tmpdir = tempdir()
 )
 }
 \arguments{
 \item{course_id}{character; Name of the QBit function.}
+
+\item{path}{character; Root path of course.}
 
 \item{index}{list; Index meta data for qbit.}
 
