@@ -223,7 +223,7 @@ deploy_course <- function(
   url_upload <- paste0(url, "/courses/", course_id, "/upload")
 
   stopifnot(length(json_files) < 1)
-  contents <- lapply(json_files, read_json)
+  contents <- lapply(json_files, function(x) read_json(x)[[1]])
   body_upload <- list(index = index,
                       files = contents)
 
