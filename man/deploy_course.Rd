@@ -9,10 +9,10 @@ deploy_course(
   path = ".",
   index = read_yaml(file.path(path, "index.yml")),
   json_files = get_json_files(path),
-  asset_files = list.files(path, pattern = "[^(html)|(Rmd)|(json)|(.DS_Store)]$",
-    full.names = TRUE),
+  asset_files = get_asset_files(path),
   apikey = getOption("QKEY"),
-  tmpdir = tempdir()
+  url = getOption("QBITURL", "https://api.quantargo.com/v2"),
+  tmpdir = file.path(tempdir(), course_id)
 )
 }
 \arguments{
@@ -27,6 +27,8 @@ deploy_course(
 \item{asset_files}{character; files to be uploaded as course assets.}
 
 \item{apikey}{character; API key from QBit platform.}
+
+\item{url}{character; Upload url to be used}
 
 \item{tmpdir}{character; Temporary directory to be used for qbit/zip creation.}
 }

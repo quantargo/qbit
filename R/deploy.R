@@ -214,7 +214,7 @@ deploy_course <- function(
   asset_files = get_asset_files(path),
   apikey = getOption("QKEY"),
   url = getOption("QBITURL", "https://api.quantargo.com/v2"),
-  tmpdir = tempdir()) {
+  tmpdir = file.path(tempdir(), course_id)) {
 
   index$moduleId <- course_id
   index$contentId <- course_id
@@ -222,7 +222,7 @@ deploy_course <- function(
   h <- list(`x-api-key` = apikey)
   url_upload <- paste0(url, "/courses/", course_id, "/upload")
 
-  stopifnot(length(json_files) < 1)
+  stopifnot(length(json_files) > 0)
   contents <- lapply(json_files, function(x) read_json(x)[[1]])
   body_upload <- list(index = index,
                       files = contents)
@@ -235,13 +235,16 @@ deploy_course <- function(
   upload_url <- resp_upload_content$uploadUrl
 
   zip_file <- NULL
-  files_to_zip <- asset_files
-  if (length(files_to_zip) > 0) {
-    zip_file <- file.path(tmpdir, sprintf("%s.zip", course_id))
-    sapply(files_to_zip, function(f) file.copy(f, tmpdir, recursive = TRUE))
-    zip_dir(zip_file, basename(files_to_zip), within_dir=tmpdir)
-  }
+  files_to_zip <- sub("^\\./", "", asset_files)
 
+  if (length(files_to_zip) > 0) {
+    on.exit(unlink(tmpdir))
+    zip_file <- file.path(tmpdir, sprintf("%s.zip", course_id))
+    target_files <- file.path(tmpdir, files_to_zip)
+    out_dir_create <- sapply(unique(dirname(target_files)), dir.create, recursive = TRUE)
+    file.copy(files_to_zip, target_files)
+    zip_dir(zip_file, files_to_zip, within_dir=tmpdir)
+  }
 
   if (!is.null(upload_url) && !is.null(zip_file)) {
     resp_upload_file <- PUT(upload_url,
