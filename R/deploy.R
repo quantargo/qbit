@@ -223,11 +223,12 @@ deploy_course <- function(
   url_upload <- paste0(url, "/courses/", course_id, "/upload")
 
   stopifnot(length(json_files) > 0)
-  contents <- lapply(json_files, function(x) read_json(x)[[1]])
+  contents <- do.call(c, lapply(json_files, function(x) read_json(x)))
   contents <- c(contents,
                 read_yaml(file.path(path, "badge.yml")),
                 read_yaml(file.path(path, "contents.yml"))
                 )
+  contents <- contents[sapply(contents, function(x) x[["moduleId"]]) == course_id]
 
   body_upload <- list(index = index,
                       files = contents)
