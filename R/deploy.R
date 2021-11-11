@@ -224,6 +224,11 @@ deploy_course <- function(
 
   stopifnot(length(json_files) > 0)
   contents <- lapply(json_files, function(x) read_json(x)[[1]])
+  contents <- c(contents,
+                read_yaml(file.path(path, "badge.yml")),
+                read_yaml(file.path(path, "contents.yml"))
+                )
+
   body_upload <- list(index = index,
                       files = contents)
 
