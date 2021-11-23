@@ -50,7 +50,7 @@ optimize_params <- function(qbit_id, params,
     states_empty_idx <- which(states == "Queued")
     states_pending_idx <- which(states == "Pending")
     queue_idx <- integer(0)
-    if (length(states_empty_idx) > 0 && states_pending_idx < max_lambda) {
+    if (length(states_empty_idx) > 0 && length(states_pending_idx) < max_lambda) {
       queue_idx <- states_empty_idx[1:min(max_lambda, length(states_empty_idx))]
     }
   }
