@@ -44,7 +44,7 @@ optimize_params <- function(qbit_id, params,
         out[[pidx]]$result <- extract_result(res_fetch$consoleOutput)
       }
     }
-    states_empty_idx <- which(states == "Empty")
+    states_empty_idx <- which(states == "Queued")
     queue_idx <- integer(0)
     if (length(states_empty_idx) > 0) {
       queue_idx <- states_empty_idx[1:min(max_lambda, length(states_empty_idx))]
