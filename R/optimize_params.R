@@ -30,7 +30,9 @@ optimize_params <- function(qbit_id, params,
     # Try to resolve Pending items
     states <- sapply(out, function(x) x$state)
     states_pending_idx <- which(states == "Pending")
-    if (length(states_pending_idx) < 1) {
+    states_queued_idx <- which(states == "Queued")
+    if (length(states_pending_idx) < 1 &&
+        length(states_queued_idx) < 1) {
       break
     }
     for (pidx in states_pending_idx) {
