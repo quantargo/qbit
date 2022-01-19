@@ -60,7 +60,8 @@ deploy <- function(qbit_id,
                    url = getOption("QBITURL", "https://api.quantargo.com/v2"),
                    verbose = getOption("verbose"),
                    tmpdir = tempdir(),
-                   secrets = NULL) {
+                   secrets = NULL, 
+                   runtime = "R") {
 
   stopifnot(!is.null(apikey))
   stopifnot(file.exists(main_file))
@@ -145,6 +146,7 @@ deploy <- function(qbit_id,
   index$usagePlan = usagePlan
   body_upload$index = index
   body_upload$secrets = secrets
+  body_upload$technologies = runtime
 
   body_upload_json <- jsonlite::toJSON(body_upload, auto_unbox = TRUE)
   message("*** Upload File")
