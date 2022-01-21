@@ -21,7 +21,8 @@ deploy(
   url = getOption("QBITURL", "https://api.quantargo.com/v2"),
   verbose = getOption("verbose"),
   tmpdir = tempdir(),
-  secrets = NULL
+  secrets = NULL,
+  runtime = "R"
 )
 }
 \arguments{
@@ -62,6 +63,8 @@ in the user settings \url{https://www.quantargo.com/dashboard}.}
 \item{tmpdir}{character; Temporary directory to be used for qbit/zip creation.}
 
 \item{secrets}{list; List of provided secrets to be used for workspace.}
+
+\item{runtime}{character; Runtime to be used for QBit, either "R" or "Python"}
 }
 \description{
 QBit workspaces can be deployed with a (pre-existing) \code{qbit_id} and a

@@ -25,6 +25,7 @@
 #' @param timeout numeric; QBit timeout in seconds.
 #' @param usagePlan character; Usage plan of Qbit, can be either either public or private.
 #' @param secrets list; List of provided secrets to be used for workspace.
+#' @param runtime character; Runtime to be used for QBit, either "R" or "Python"
 #' @examples
 #' \dontrun{
 #'   deploy('qbit-example-landing-page', main_file = 'main.R')
@@ -60,7 +61,7 @@ deploy <- function(qbit_id,
                    url = getOption("QBITURL", "https://api.quantargo.com/v2"),
                    verbose = getOption("verbose"),
                    tmpdir = tempdir(),
-                   secrets = NULL, 
+                   secrets = NULL,
                    runtime = "R") {
 
   stopifnot(!is.null(apikey))
