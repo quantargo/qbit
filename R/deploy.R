@@ -263,18 +263,43 @@ deploy_course <- function(
 
   message("*** Start Deploy")
   url_deploy <- paste0(url, "/courses/", course_id, "/deploy")
+
   resp_deploy <- POST(url_deploy, do.call(add_headers, h),
+                      body = list(async = 1),
                       encode = "json")
 
-
   if (resp_deploy$status_code == 200) {
-    message(sprintf("Course '%s' successfully deployed!", course_id))
-    invisible(TRUE)
-    #return(resp_upload_content$id)
+    while (TRUE) {
+      url_invoke <- sprintf("%s/qbits/%s/invoke/%s", url, course_id, "qbit-fetch-result")
+      event_id <- content(resp_deploy)$eventId
+      resp <- POST(url_invoke, do.call(add_headers, h),
+                   body = list(eventId = event_id,
+                               stateful = 0,
+                               waitSync = 0),
+                   encode = "json")
+
+      stopifnot(resp$status_code == 200)
+
+      resp_state <- content(resp)$state
+
+      if (resp_state == "Ready") {
+        message(sprintf("Course '%s' successfully deployed!", course_id))
+        break
+      } else if (resp_state == "Pending") {
+        sleep_time <- 10
+        message(sprintf("Deployment state 'Pending'. Sleeping for %d seconds", sleep_time))
+        Sys.sleep(sleep_time)
+        next
+      } else if (resp_state == "Timeout") {
+        stop("Course deployment timed out.")
+      } else {
+        stop(sprintf("Unknown response state '%s'", resp_state))
+      }
+    }
   } else {
     message(resp_deploy)
-    stop("An error occured uploading the function.")
+    stop("An error occured deploying the course")
   }
 
-
+  invisible(TRUE)
 }
