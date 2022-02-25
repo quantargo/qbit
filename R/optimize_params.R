@@ -1,4 +1,4 @@
-#' @export
+# @export
 optimize_params <- function(qbit_id, params,
                              max_lambda = 10L,
                              sleep_time = 10L,
