@@ -171,7 +171,7 @@ deploy <- function(qbit_id,
   event_id <- content(resp_deploy)$eventId
 
   if (resp_deploy$status_code == 200) {
-    wait_for_event(qbit_id, event_id, h)
+    wait_for_event(qbit_id, event_id, url, h)
     message(sprintf("QBit '%s' successfully deployed!", qbit_id))
   } else {
     message(resp_deploy)

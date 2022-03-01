@@ -77,7 +77,7 @@ deploy_course <- function(
   event_id <- content(resp_deploy)$eventId
 
   if (resp_deploy$status_code == 200) {
-    wait_for_event(course_id, event_id, h)
+    wait_for_event(course_id, event_id, url, h)
     message(sprintf("Course '%s' successfully deployed!", course_id))
   } else {
     message(resp_deploy)

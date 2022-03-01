@@ -1,4 +1,4 @@
-wait_for_event <- function(user_id, event_id, h) {
+wait_for_event <- function(user_id, event_id, url, h) {
   while (TRUE) {
     url_invoke <- sprintf("%s/qbits/%s/invoke/%s", url, user_id, "qbit-fetch-result")
     resp <- POST(url_invoke, do.call(add_headers, h),
