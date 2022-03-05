@@ -13,7 +13,7 @@ deploy(
   source_main_file = TRUE,
   eval_env = .GlobalEnv,
   obj = ls(envir = eval_env),
-  timeout = 60,
+  timeout = 120,
   package_lock = "renv.lock",
   packagesLoaded = dependencies()$Package,
   apikey = getOption("QKEY"),
