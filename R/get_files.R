@@ -8,5 +8,6 @@ get_asset_files <- function(path = ".") {
   out <- grep("_cache", out, fixed = TRUE, value = TRUE, invert = TRUE)
   out <- grep("./renv", out, fixed = TRUE, value = TRUE, invert = TRUE)
   out <- grep("./qbit.*", out, value = TRUE, invert = TRUE)
+  out <- grep("./script_.*\\.py", out, value = TRUE, invert = TRUE)
   out
 }
